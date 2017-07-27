@@ -4,12 +4,18 @@ var size = Math.min($canvas.attr('width'), $canvas.attr('height'))
 var lineFn = d3.line()
     .y(function(d){return size - d[1]});
 
+var zoom = d3.zoom().on('zoom', zoomed);
 
+$canvas.call(zoom);
+
+function zoomed() {
+    $canvas.selectAll('path').attr('transform', d3.event.transform);
+}
 function drawLine(pts) {
     $canvas.append('path').attr('d', lineFn(pts))
         .attr('stroke', 'blue')
         .attr('stroke-width', 1)
-        .attr('fill', 'none')
+        .attr('fill', 'none');
 }
 
 function drawTriangle(x, y, size, depth, maxDepth) {
