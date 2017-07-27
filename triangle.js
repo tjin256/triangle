@@ -25,7 +25,7 @@ function drawTriangle(x, y, size, depth, maxDepth) {
     ctx.moveTo(x, y);
     ctx.lineTo(half + x, y + size);
     ctx.lineTo(size + x, y);
-    // ctx.lineTo(x, y);
+    ctx.lineTo(x, y);
     ctx.stroke();
     ctx.closePath();
 
