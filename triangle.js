@@ -8,7 +8,13 @@ var zoom = d3.zoom().on('zoom', zoomed);
 $canvas.call(zoom);
 
 function zoomed() {
-    $canvas.selectAll('path').attr('transform', d3.event.transform);
+    ctx.save();
+    ctx.clearRect(0, 0, size, size);
+    var transform = d3.event.transform;
+    ctx.translate(transform.x, transform.y);
+    ctx.scale(transform.k, transform.k);
+    draw();
+    ctx.restore();
 }
 
 function drawTriangle(x, y, size, depth, maxDepth) {
@@ -31,5 +37,8 @@ function drawTriangle(x, y, size, depth, maxDepth) {
 
 }
 
-drawTriangle(0, 0, size, 0, 6);
+function draw(){
+    drawTriangle(0, 0, size, 0, 6);
+}
 
+draw();
