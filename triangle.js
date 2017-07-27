@@ -8,12 +8,23 @@ var zoom = d3.zoom().on('zoom', zoomed);
 $canvas.call(zoom);
 
 var numDrawn = 0;
+
+var scale = 1, dx = 0, dy = 0, minX = 0, maxX = size, minY = 0, maxY = size;
+
+
 function zoomed() {
     ctx.save();
     ctx.clearRect(0, 0, size, size);
     var transform = d3.event.transform;
+    dx = transform.x;
+    dy = transform.y;
+    scale = transform.k;
     ctx.translate(transform.x, transform.y);
     ctx.scale(transform.k, transform.k);
+    minX = -dx / scale;
+    minY = -dy / scale;
+    maxX = (size) / scale - dx;
+    maxY = (size) / scale - dy;
     draw();
     ctx.restore();
 }
@@ -21,6 +32,10 @@ function zoomed() {
 function drawTriangle(x, y, size, depth, maxDepth) {
     var quarter = 0.25 * size;
     var half = 0.5 * size;
+
+    if (x + size < minX || x > maxX || y + size < minY || y > maxY) {
+        return;
+    }
 
     ctx.beginPath();
     ctx.moveTo(x, y);
