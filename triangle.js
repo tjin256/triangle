@@ -56,11 +56,14 @@ function drawTriangle(x, y, size, depth, maxDepth) {
 
 }
 
+var $label = document.getElementById('label');
+
 function draw(){
     numDrawn = 0;
     var levels = 6 + Math.log(scale)/Math.log(2);
     drawTriangle(0, 0, size, 0, levels);
     document.title = Math.round(scale) + ', ' + levels.toFixed(1) + ', ' + numDrawn;
+    $label.innerHTML = 'scale: ' + Math.round(scale) + ' levels:' + levels.toFixed(1) + ' triangles: ' + numDrawn;
 }
 
 draw();
