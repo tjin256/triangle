@@ -1,9 +1,8 @@
 var $canvas = d3.select('#mycanvas');
 
-var size = Math.min($canvas.attr('width'), $canvas.attr('height'))
-var lineFn = d3.line()
-    .y(function(d){return size - d[1]});
+var ctx = $canvas.node().getContext('2d');
 
+var size = Math.min($canvas.attr('width'), $canvas.attr('height'))
 var zoom = d3.zoom().on('zoom', zoomed);
 
 $canvas.call(zoom);
@@ -11,18 +10,18 @@ $canvas.call(zoom);
 function zoomed() {
     $canvas.selectAll('path').attr('transform', d3.event.transform);
 }
-function drawLine(pts) {
-    $canvas.append('path').attr('d', lineFn(pts))
-        .attr('stroke', 'blue')
-        .attr('stroke-width', 1)
-        .attr('fill', 'none');
-}
 
 function drawTriangle(x, y, size, depth, maxDepth) {
     var quarter = 0.25 * size;
     var half = 0.5 * size;
-    var pts = [[x, y], [half + x, y + size], [size + x, y], [x, y]];
-    drawLine(pts);
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(half + x, y + size);
+    ctx.lineTo(size + x, y);
+    // ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.closePath();
 
     if (depth <= maxDepth) {
         drawTriangle(x + quarter, y + half, half, depth + 1, maxDepth);
