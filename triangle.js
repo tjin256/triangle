@@ -23,8 +23,8 @@ function zoomed() {
     ctx.scale(transform.k, transform.k);
     minX = -dx / scale;
     minY = -dy / scale;
-    maxX = (size) / scale - dx;
-    maxY = (size) / scale - dy;
+    maxX = (size - dx) / scale;
+    maxY = (size - dy) / scale;
     draw();
     ctx.restore();
 }
