@@ -33,11 +33,12 @@ function drawTriangle(x, y, size, depth, maxDepth) {
     var quarter = 0.25 * size;
     var half = 0.5 * size;
 
-    if (x + size < minX || x > maxX || y + size < minY || y > maxY) {
+    if (x + size <= minX || x >= maxX || y + size <= minY || y >= maxY) {
         return;
     }
 
     ctx.beginPath();
+    ctx.lineWidth = 0.1 / scale;
     ctx.moveTo(x, y);
     ctx.lineTo(half + x, y + size);
     ctx.lineTo(size + x, y);
@@ -57,8 +58,9 @@ function drawTriangle(x, y, size, depth, maxDepth) {
 
 function draw(){
     numDrawn = 0;
-    drawTriangle(0, 0, size, 0, 6);
-    document.title = numDrawn;
+    var levels = 6 + Math.log(scale)/Math.log(2);
+    drawTriangle(0, 0, size, 0, levels);
+    document.title = Math.round(scale) + ', ' + levels.toFixed(1) + ', ' + numDrawn;
 }
 
 draw();
